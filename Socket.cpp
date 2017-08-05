@@ -31,7 +31,7 @@ void Socket::toListen() {
 int Socket::toAccept(struct sockaddr_in *addr) {
     socklen_t addrlen = static_cast<socklen_t>(sizeof addr);
     int connfd = accept(sockfd_, (struct sockaddr*)addr, &addrlen);
-    //setNonBlockAndCloseOnExec(connfd);
+    setNonBlockAndCloseOnExec(connfd);
     return connfd;
 }
 
