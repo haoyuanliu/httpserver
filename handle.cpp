@@ -40,6 +40,8 @@ int Handle::work(int connfd) {
         httpRequest request(buf);
         httpResponse response;
         ret = dealRequest(request, response);
+        std::string temp = response.toString();
+        send(connfd, temp.c_str(), temp.size(), MSG_DONTWAIT);
     return 0;
 }
 
@@ -47,7 +49,7 @@ int Handle::dealRequest(httpRequest &req, httpResponse &res) {
     std::cout << "Hello!" << std::endl;
     std::cout << req.toString() << std::endl;
     res.setStatus(httpResponse::k200Ok);
-    res.setCloseConnection(true);
+    res.setCloseConnection(false);
     std::string path = getPath(req.getPath());
     std::cout << path << std::endl;
     res.setContentType(getType(path));
@@ -105,8 +107,10 @@ std::string Handle::getPath(std::string path) {
 }
 
 std::string Handle::getContent(std::string path) {
-    std::ifstream ifs(path);
-    if (ifs.is_open()) {
+    std::cout << "Path: " << path << std::endl;
+    std::ifstream ifs;
+    ifs.open(path);
+    if (!ifs.is_open()) {
         return "Error while opening file!";
     }
     std::string res;
