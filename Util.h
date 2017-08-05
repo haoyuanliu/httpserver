@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <map>
 #include <sstream>
 
 class Util{
@@ -14,4 +15,6 @@ class Util{
             ss >> output;
             return output;
         }
+        static void trim(std::string &str);
+        static void split(std::string str, std::string pattern, std::map<std::string, std::string> &m);
 };
