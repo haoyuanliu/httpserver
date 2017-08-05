@@ -3,8 +3,9 @@
 httpRequest::httpRequest(const char *buf) {
     std::istringstream iss(buf);
     std::string method;
-    iss >> method >> path_ >> version_;
+    iss >> method >> uri_ >> version_;
     setMethod(method);
+    setPath("./content" + uri_);
     std::string header;
     while(getline(iss, header)) {
         Util::trim(header);

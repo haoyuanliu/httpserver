@@ -7,7 +7,6 @@
 
 #include "Socket.h"
 #include "handle.h"
-#include "httpRequest.h"
 
 #define MAX_EPOLL_SIZE 1024
 
@@ -76,7 +75,7 @@ int main(int argc, char *argv[]) {
                     close(connfd);
                     continue;
                 }
-                ev.events = EPOLLIN | EPOLLET;
+                ev.events = EPOLLIN;
                 ev.data.fd = connfd;
                 if (epoll_ctl(epollfd, EPOLL_CTL_ADD, connfd, &ev) < 0) {
                     fprintf(stderr, "Add socket %d to epoll failed: %s\n", connfd, strerror(errno));

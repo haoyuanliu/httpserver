@@ -17,6 +17,7 @@ int Handle::work(int connfd) {
         recv_bytes = recv(connfd, buf, MAX_BUFFER_SIZE, MSG_DONTWAIT);
         if (recv_bytes > 0) {
             m_recvBuf[connfd].append(buf, recv_bytes);
+            break;
         } else if (recv_bytes == 0) {
             //TCP连接关闭，TCP的FIN会触发EPOLLIN事件
             printf("client close the connection\n");
@@ -36,15 +37,83 @@ int Handle::work(int connfd) {
     }
 
     int ret;
-    while(1) {
-        httpRequest request = httpRequest(buf);
+        httpRequest request(buf);
         httpResponse response;
         ret = dealRequest(request, response);
-    }
     return 0;
 }
 
-int Handle::dealRequest(httpRequest req, httpResponse &res) {
+int Handle::dealRequest(httpRequest &req, httpResponse &res) {
+    std::cout << "Hello!" << std::endl;
+    std::cout << req.toString() << std::endl;
+    res.setStatus(httpResponse::k200Ok);
+    res.setCloseConnection(true);
+    std::string path = getPath(req.getPath());
+    std::cout << path << std::endl;
+    res.setContentType(getType(path));
+    res.setBody(getContent(path));
+    std::cout << "Response:" << std::endl;
     std::cout << res.toString() << std::endl;
     return 0;
+}
+
+std::string Handle::getType(std::string uri) {
+    std::string type;
+    int size = uri.size();
+    int dot = size - 1;
+    while(dot >= 0 && uri[dot] != '.') {
+        dot--;
+    }
+    if (dot == 0) {
+        return "text/html";
+    } else if (dot < 0) {
+        return "text/html";
+    } else {
+        dot++;
+        type.assign(uri, dot, size-dot);
+        Util::toUpper(type);
+        if ("HTML" == type)
+            return "text/html";
+        if ("JPEG" == type)
+            return "image/jpeg";
+        if ("HTM" == type)
+            return "text/html";
+        if ("CSS" == type)
+            return "text/css";
+        if ("PNG" == type)
+            return "image/png";
+        if ("JPG" == type)
+            return "image/jpg";
+        if ("GIF" == type)
+            return "image/gif";
+        if ("TXT" == type)
+            return "text/plain";
+        if ("JS" == type)
+            return "text/javascript";
+    }
+    return "NULL";
+}
+
+std::string Handle::getPath(std::string path) {
+    if (access(path.c_str(), F_OK) == -1) {
+        return "./content/404.html";
+    }
+    if (access(path.c_str(), R_OK) == -1) {
+        return "./content/403.html";
+    }
+    return path;
+}
+
+std::string Handle::getContent(std::string path) {
+    std::ifstream ifs(path);
+    if (ifs.is_open()) {
+        return "Error while opening file!";
+    }
+    std::string res;
+    std::string line;
+    while(!ifs.eof()) {
+        getline(ifs, line);
+        res += line;
+    }
+    return res;
 }

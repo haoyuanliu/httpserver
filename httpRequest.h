@@ -11,6 +11,14 @@ class httpRequest {
         httpRequest() : method_(kInvalid) {}
         httpRequest(const char *buf);
 
+        void setUri(std::string uri) {
+            uri_ = uri;
+        }
+
+        std::string getUri() const {
+            return uri_;
+        }
+
         void setVersion(std::string version) {
             version_ =  version;
         }
@@ -66,6 +74,8 @@ class httpRequest {
         }
 
         void setPath(std::string path) {
+            if ("/" == path)
+                path = "/index.html";
             path_ = path;
         }
 
@@ -110,6 +120,7 @@ class httpRequest {
 
     private:
         Method method_;
+        std::string uri_;
         std::string path_;
         std::string version_;
         std::map<std::string, std::string> headers_;

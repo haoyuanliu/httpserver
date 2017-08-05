@@ -19,3 +19,11 @@ void Util::split(std::string str, std::string pattern, std::map<std::string, std
         m[key] = value;
     }
 }
+
+void Util::toUpper(std::string &str) {
+    if (str.empty()) return;
+    std::string::iterator it;
+    for (it = str.begin(); it != str.end(); ++it) {
+        *it = toupper(*it);
+    }
+}

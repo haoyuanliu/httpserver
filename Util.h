@@ -2,6 +2,7 @@
 #include <string>
 #include <map>
 #include <sstream>
+#include <fstream>
 #include "TimeStamp.h"
 
 class Util{
@@ -18,4 +19,5 @@ class Util{
         }
         static void trim(std::string &str);
         static void split(std::string str, std::string pattern, std::map<std::string, std::string> &m);
+        static void toUpper(std::string &str);
 };

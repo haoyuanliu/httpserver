@@ -17,5 +17,8 @@ class Handle {
     public:
         int work(int connfd);
     private:
-        int dealRequest(httpRequest req, httpResponse &res);
+        int dealRequest(httpRequest &req, httpResponse &res);
+        std::string getType(std::string uri);
+        std::string getPath(std::string path);
+        std::string getContent(std::string path);
 };
