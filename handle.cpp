@@ -109,15 +109,12 @@ std::string Handle::getPath(std::string path) {
 std::string Handle::getContent(std::string path) {
     std::cout << "Path: " << path << std::endl;
     std::ifstream ifs;
-    ifs.open(path);
+    ifs.open(path, std::ios::binary);
     if (!ifs.is_open()) {
         return "Error while opening file!";
     }
-    std::string res;
-    std::string line;
-    while(!ifs.eof()) {
-        getline(ifs, line);
-        res += line;
-    }
+    std::ostringstream oss;
+    oss << ifs.rdbuf();
+    std::string res = oss.str();
     return res;
 }
