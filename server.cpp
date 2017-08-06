@@ -42,15 +42,13 @@ int main(int argc, char *argv[]) {
         fprintf(stderr, "epoll set insertion error: fd = %d\n", listenfd);
         return -1;
     }
-    cout << "http_server startup, port: " << listenfd
-         << ", max connection is: " << MAX_EPOLL_SIZE
-         << ", backlog is: " << listenq << endl;
+    cout << "http_server startup, port: " << port
+         << ", max connection is: " << MAX_EPOLL_SIZE << endl;
 
 
     int nfds, connfd;
     int curfds = 1;
     struct epoll_event events[MAX_EPOLL_SIZE];
-    //struct sockaddr_in cli_addr;
     InetAddress cli_addr;
     while(1) {
         cout << "Waiting ..." << endl;

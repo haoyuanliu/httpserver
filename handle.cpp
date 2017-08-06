@@ -46,7 +46,7 @@ int Handle::work(int connfd) {
 }
 
 int Handle::dealRequest(httpRequest &req, httpResponse &res) {
-    std::cout << "Hello!" << std::endl;
+    std::cout << "Request:" << std::endl;
     std::cout << req.toString() << std::endl;
     res.setStatus(httpResponse::k200Ok);
     res.setCloseConnection(false);
