@@ -16,11 +16,11 @@ std::map<int, string> m_recvBuf;
 Socket initSock(uint16_t port) {
     InetAddress server_addr = InetAddress(port, false);
     Socket server_sock = Socket();
-    server_sock.bindAddress(server_addr);
-    server_sock.toListen();
     server_sock.setTcpNoDelay(true);
     server_sock.setReuseAddr(true);
     server_sock.setReusePort(true);
+    server_sock.bindAddress(server_addr);
+    server_sock.toListen();
     return server_sock;
 }
 
