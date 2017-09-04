@@ -12,6 +12,7 @@
 
 using namespace std;
 std::map<int, string> m_recvBuf;
+threadpool_t g_thread_pool;
 
 Socket initSock(uint16_t port) {
     InetAddress server_addr = InetAddress(port, false);
@@ -29,6 +30,9 @@ int main(int argc, char *argv[]) {
         printf("Usage: %s port\n", argv[0]);
         return -1;
     }
+
+    threadpool_init(&g_thread_pool, 10);
+
     uint16_t port = static_cast<uint16_t>(atoi(argv[1]));
     Socket server = initSock(port);
     int listenfd = server.get_fd();

@@ -4,6 +4,7 @@
 #include <string.h>
 #include "httpRequest.h"
 #include "httpResponse.h"
+#include "threadpool.h"
 
 #define MAX_BUFFER_SIZE 4096
 #define MAX_RECV_LEN    20480

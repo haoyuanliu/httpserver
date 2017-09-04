@@ -37,11 +37,11 @@ int Handle::work(int connfd) {
     }
 
     int ret;
-        httpRequest request(buf);
-        httpResponse response;
-        ret = dealRequest(request, response);
-        std::string temp = response.toString();
-        send(connfd, temp.c_str(), temp.size(), MSG_DONTWAIT);
+    httpRequest request(buf);
+    httpResponse response;
+    ret = dealRequest(request, response);
+    std::string temp = response.toString();
+    send(connfd, temp.c_str(), temp.size(), MSG_DONTWAIT);
     return 0;
 }
 
