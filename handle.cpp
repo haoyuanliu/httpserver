@@ -98,10 +98,10 @@ std::string Handle::getType(std::string uri) {
 
 std::string Handle::getPath(std::string path) {
     if (access(path.c_str(), F_OK) == -1) {
-        return "./content/404.html";
+        return "../content/404.html";
     }
     if (access(path.c_str(), R_OK) == -1) {
-        return "./content/403.html";
+        return "../content/403.html";
     }
     return path;
 }

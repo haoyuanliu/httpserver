@@ -75,7 +75,7 @@ class httpRequest {
 
         void setPath(std::string path) {
             if ("./content/" == path)
-                path = "./content/index.html";
+                path = "../content/index.html";
             path_ = path;
         }
 
